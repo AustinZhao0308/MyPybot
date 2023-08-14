@@ -1,6 +1,7 @@
 from PyOfficeRobot.core.WeChatType import *
-import PyOfficeRobot
+import PyOfficeRobot, datetime
 import scripts.Jellyfin as jf
+import scripts.DailyReport as dr
 from scripts.FuncLaucher import FuncLaucher
 from functools import partial
 from data.keywords import keywords
@@ -23,6 +24,15 @@ while True:
         elif (friend_name == who) & (receive_msg != temp_msg) & (receive_msg not in keywords.keys()):
             temp_msg = receive_msg
             FuncLaucher(receive_msg)
+
+        #每日早报
+        current_time = datetime.now().time()
+        eight_am = time(8, 0, 0)
+        if current_time == eight_am:
+            dr.getDailyReport()
+
+        #每日晚报
+
     except:
         pass
 
