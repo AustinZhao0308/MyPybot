@@ -1,19 +1,30 @@
 import os, subprocess
 import signal
+import psutil
 import time
+from PyOfficeRobot.core.WeChatType import *
+import PyOfficeRobot
+
 jf_process = None
 
-def startServer():
-    global jf_process
-    if jf_process is not None and jf_process.poll() is None:
-        jf_process.send_signal(signal.CTRL_BREAK_EVENT)
-        jf_process.wait()
+def close_program(program_name):
+    for process in psutil.process_iter():
+        try:
+            process_info = process.as_dict(attrs=['pid', 'name'])
+            if program_name.lower() in process_info['name'].lower():
+                pid = process_info['pid']
+                process = psutil.Process(pid)
+                process.terminate()
+                print(f"Closed {process_info['name']}")
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
 
-    subprocess.Popen("D:\\Program Files\\jellyfin_10.8.9\\jellyfin.exe")
+def startServer():
+    PyOfficeRobot.chat.send_message("akinaustin", "Starting jellyfin...")
+    path = "C:/Users/Lenovo/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/jellyfin.lnk"
+    subprocess.call(["start", "", path], shell=True)
+
 
 def killServer():
-    global jf_process
-    if jf_process is not None and jf_process.poll() is None:
-        jf_process.send_signal(signal.CTRL_BREAK_EVENT)
-        jf_process.wait()
-        jf_process = None
+    PyOfficeRobot.chat.send_message("akinaustin", "Closing jellyfin...")
+    close_program("jellyfin.exe")
