@@ -14,6 +14,13 @@ who = 'akinaustin'
 wx.ChatWith(who=who)
 wx.SendMsg(msg, who)
 
+def getmsg():
+    friend_name, receive_msg = wx.GetAllMessage[-1][0], wx.GetAllMessage[-1][1]
+    while receive_msg == temp_msg:
+        pass
+    return receive_msg
+
+
 temp_msg = ''
 while True:
     try:

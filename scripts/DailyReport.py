@@ -17,6 +17,15 @@ def getDailyReport():
     res = DateMsg() + WeatherMsg()
     PyOfficeRobot.chat.send_message("akinaustin", res)
 
+def getWeather():
+    res = WeatherMsg()
+    PyOfficeRobot.chat.send_message("akinaustin", res)
+
+def getDate():
+    res = DateMsg()
+    PyOfficeRobot.chat.send_message("akinaustin", res)
+
+
 def DateMsg():
     current_date = datetime.now()
     year = str(current_date.year)
